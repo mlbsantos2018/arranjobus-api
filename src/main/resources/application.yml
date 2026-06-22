@@ -5,10 +5,42 @@ spring:
   data:
     mongodb:
       uri: ${MONGODB_URI}
+      auto-index-creation: true
 
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: 86400000
+  docker:
+    compose:
+      enabled: false
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+    deserialization:
+      fail-on-unknown-properties: false
 
 server:
   port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+
+  api-docs:
+    path: /v3/api-docs
+
+  show-actuator: false
+
+logging:
+  level:
+    root: INFO
+    com.transporte: DEBUG
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

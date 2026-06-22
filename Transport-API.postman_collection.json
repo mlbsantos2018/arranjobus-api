@@ -1,0 +1,655 @@
+{
+  "info": {
+    "_postman_id": "transport-api-collection-001",
+    "name": "Transport API",
+    "description": "Collection de testes para Transport API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin1\",\n  \"password\": \"admin123456\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set(\"token\", jsonData.token);",
+                  "  pm.environment.set(\"token_type\", jsonData.type);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin1\",\n  \"password\": \"admin123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "People",
+      "item": [
+        {
+          "name": "Create Person",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set(\"pessoa_id\", jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCompleto\": \"João Silva dos Santos\",\n  \"tipoDocumento\": \"CPF\",\n  \"numeroDocumento\": \"12345678901\",\n  \"telefone\": \"(11) 98765-4321\",\n  \"observacaoCurta\": \"Conhecido como João\",\n  \"observacaoDetalhada\": \"Participa desde 2020\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/people",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people"]
+            }
+          }
+        },
+        {
+          "name": "Get Person",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/people/{{pessoa_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people", "{{pessoa_id}}"]
+            }
+          }
+        },
+        {
+          "name": "List People",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/people",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people"]
+            }
+          }
+        },
+        {
+          "name": "Search People",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/people/search?termo=João",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people", "search"],
+              "query": [
+                {
+                  "key": "termo",
+                  "value": "João"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Person",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCompleto\": \"João Silva - Atualizado\",\n  \"telefone\": \"(11) 99999-9999\",\n  \"observacaoCurta\": \"Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/people/{{pessoa_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people", "{{pessoa_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Person",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/people/{{pessoa_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "people", "{{pessoa_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Create Event",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set(\"evento_id\", jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Congresso Nacional de Tecnologia 2024\",\n  \"tipo\": \"CONGRESSO\",\n  \"valorPassagem\": 150.00,\n  \"vagasTotais\": 100,\n  \"limiteIdadeCriancaColo\": 3,\n  \"temas\": [\"Inteligência Artificial\", \"Cloud Computing\", \"DevOps\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"]
+            }
+          }
+        },
+        {
+          "name": "Get Event",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}"]
+            }
+          }
+        },
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"]
+            }
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Congresso 2024 - Atualizado\",\n  \"tipo\": \"CONGRESSO\",\n  \"valorPassagem\": 160.00,\n  \"vagasTotais\": 120\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Close Event",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/close",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}", "close"]
+            }
+          }
+        },
+        {
+          "name": "Archive Event",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/archive",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}", "archive"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Participations",
+      "item": [
+        {
+          "name": "Create Participation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set(\"participacao_id\", jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pessoaId\": \"{{pessoa_id}}\",\n  \"eventoId\": \"{{evento_id}}\",\n  \"dias\": [\"SEXTA\", \"SABADO\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/participations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "participations"]
+            }
+          }
+        },
+        {
+          "name": "Delete Participation",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/participations/{{participacao_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "participations", "{{participacao_id}}"]
+            }
+          }
+        },
+        {
+          "name": "List Participants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/participants",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}", "participants"]
+            }
+          }
+        },
+        {
+          "name": "List Participants by Day",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/participants/day/SEXTA",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{evento_id}}", "participants", "day", "SEXTA"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set(\"pagamento_id\", jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participacaoId\": \"{{participacao_id}}\",\n  \"valorTotal\": 300.00,\n  \"valorPago\": 100.00,\n  \"formaPagamento\": \"PIX\",\n  \"observacao\": \"Primeiro pagamento\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/{{participacao_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "{{participacao_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/{{pagamento_id}}/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "{{pagamento_id}}", "history"]
+            }
+          }
+        },
+        {
+          "name": "Payment Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Report Friday",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/events/{{evento_id}}/friday",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reports", "events", "{{evento_id}}", "friday"]
+            }
+          }
+        },
+        {
+          "name": "Report Saturday",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/events/{{evento_id}}/saturday",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reports", "events", "{{evento_id}}", "saturday"]
+            }
+          }
+        },
+        {
+          "name": "Report Sunday",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/events/{{evento_id}}/sunday",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reports", "events", "{{evento_id}}", "sunday"]
+            }
+          }
+        },
+        {
+          "name": "Export Excel",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/events/{{evento_id}}/excel?dia=SEXTA",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reports", "events", "{{evento_id}}", "excel"],
+              "query": [
+                {
+                  "key": "dia",
+                  "value": "SEXTA"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pessoa_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "evento_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "participacao_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pagamento_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
