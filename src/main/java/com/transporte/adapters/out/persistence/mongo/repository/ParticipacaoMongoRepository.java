@@ -4,7 +4,6 @@ import com.transporte.adapters.out.persistence.mongo.document.ParticipacaoDocume
 import com.transporte.domain.enums.DiaEvento;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

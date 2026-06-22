@@ -5,8 +5,6 @@ import com.transporte.application.dto.response.LancamentoPagamentoResponse;
 import com.transporte.domain.model.Pagamento;
 import com.transporte.domain.model.LancamentoPagamento;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
