@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: transport-api
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
+
+server:
+  port: 8080
