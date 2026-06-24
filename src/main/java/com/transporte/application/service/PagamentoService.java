@@ -67,6 +67,10 @@ public class PagamentoService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pagamento", participacaoId.toString()));
     }
 
+    public Pagamento atualizar(Pagamento pagamento) {
+        return pagamentoRepository.atualizar(pagamento);
+    }
+
     public Pagamento buscarPorId(UUID id) {
         return pagamentoRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pagamento", id.toString()));
@@ -76,7 +80,7 @@ public class PagamentoService {
         return pagamentoRepository.listar();
     }
 
-    private BigDecimal calcularValorTotal(TipoEvento tipoEvento, BigDecimal valorPassagem, List<DiaEvento> dias) {
+    BigDecimal calcularValorTotal(TipoEvento tipoEvento, BigDecimal valorPassagem, List<DiaEvento> dias) {
         if (tipoEvento == TipoEvento.ASSEMBLEIA) {
             return valorPassagem;
         }

@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,6 +67,14 @@ public class EventoService {
         eventoRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Evento", id.toString()));
         
+        // Deletar todas as participações relacionadas ao evento e seus pagamentos associados
+        var participacoes = participacaoRepository.buscarPorEventoId(id);
+        participacoes.forEach(participacao -> {
+            pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
+                    .ifPresent(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
+            participacaoRepository.excluir(participacao.getId());
+        });
+        
         eventoRepository.excluir(id);
     }
 
@@ -116,13 +123,7 @@ public class EventoService {
         
         // Calcular percentual de arrecadação com base no total possível de vagas
         BigDecimal valorEsperado;
-        if (evento.getTipo() == TipoEvento.CONGRESSO) {
-            valorEsperado = evento.getValorPassagem()
-                    .divide(BigDecimal.valueOf(3), 2, RoundingMode.HALF_UP)
-                    .multiply(BigDecimal.valueOf(evento.getVagasTotais()));
-        } else {
-            valorEsperado = evento.getValorPassagem().multiply(BigDecimal.valueOf(evento.getVagasTotais()));
-        }
+        valorEsperado = evento.getValorPassagem().multiply(BigDecimal.valueOf(evento.getVagasTotais()));
         Double percentualArrecadacao = valorEsperado.compareTo(BigDecimal.ZERO) > 0
                 ? (totalArrecadado.doubleValue() / valorEsperado.doubleValue()) * 100.0
                 : 0.0;

@@ -13,6 +13,8 @@ public class PessoaUpdateRequest {
     @NotBlank(message = "Nome completo é obrigatório")
     private String nomeCompleto;
 
+    private Boolean criancaColo;
+
     private String telefone;
 
     private String observacaoCurta;

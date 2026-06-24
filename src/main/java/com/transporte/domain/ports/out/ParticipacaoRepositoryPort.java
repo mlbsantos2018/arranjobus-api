@@ -20,6 +20,8 @@ public interface ParticipacaoRepositoryPort {
 
     List<Participacao> buscarPorPessoaId(UUID pessoaId);
 
+    Optional<Participacao> buscarPorPessoaEEvento(UUID pessoaId, UUID eventoId);
+
     boolean existePorPessoaEEvento(UUID pessoaId, UUID eventoId);
 
     List<Participacao> buscarPorEventoIdEDia(

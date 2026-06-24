@@ -21,6 +21,8 @@ public class PessoaCreateRequest {
     @NotBlank(message = "Número do documento é obrigatório")
     private String numeroDocumento;
 
+    private boolean criancaColo = false;
+
     private String telefone;
 
     private String observacaoCurta;

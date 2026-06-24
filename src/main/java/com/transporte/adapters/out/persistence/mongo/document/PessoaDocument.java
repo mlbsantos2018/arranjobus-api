@@ -29,6 +29,8 @@ public class PessoaDocument {
     @Indexed(unique = true)
     private String numeroDocumento;
 
+    private boolean criancaColo;
+
     private String telefone;
 
     @TextIndexed

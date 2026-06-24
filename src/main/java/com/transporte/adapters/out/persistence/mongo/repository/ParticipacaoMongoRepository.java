@@ -3,6 +3,8 @@ package com.transporte.adapters.out.persistence.mongo.repository;
 import com.transporte.adapters.out.persistence.mongo.document.ParticipacaoDocument;
 import com.transporte.domain.enums.DiaEvento;
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,8 @@ public interface ParticipacaoMongoRepository
         List<ParticipacaoDocument> findByEventoId(String eventoId);
 
         List<ParticipacaoDocument> findByPessoaId(String pessoaId);
+
+        Optional<ParticipacaoDocument> findByPessoaIdAndEventoId(String pessoaId, String eventoId);
 
         boolean existsByPessoaIdAndEventoId(
                         String pessoaId,

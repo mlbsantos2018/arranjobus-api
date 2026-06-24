@@ -41,7 +41,7 @@ public class ParticipacaoController {
     @Operation(summary = "Remover participação", description = "Remover um participante de um evento")
     public ResponseEntity<Void> remover(
             @PathVariable UUID id,
-            @RequestParam(defaultValue = "true") boolean keepPayment) {
+            @RequestParam(defaultValue = "false") boolean keepPayment) {
         participacaoService.remover(id, keepPayment);
         return ResponseEntity.noContent().build();
     }

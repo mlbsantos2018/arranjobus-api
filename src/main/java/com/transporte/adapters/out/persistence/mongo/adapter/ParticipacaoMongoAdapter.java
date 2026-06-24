@@ -61,6 +61,12 @@ public class ParticipacaoMongoAdapter implements ParticipacaoRepositoryPort {
     }
 
     @Override
+    public Optional<Participacao> buscarPorPessoaEEvento(UUID pessoaId, UUID eventoId) {
+        return repository.findByPessoaIdAndEventoId(pessoaId.toString(), eventoId.toString())
+                .map(mapper::toParticipacao);
+    }
+
+    @Override
     public boolean existePorPessoaEEvento(UUID pessoaId, UUID eventoId) {
         return repository.existsByPessoaIdAndEventoId(pessoaId.toString(), eventoId.toString());
     }

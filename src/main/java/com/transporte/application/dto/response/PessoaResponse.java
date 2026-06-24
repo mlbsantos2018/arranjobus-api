@@ -17,6 +17,7 @@ public class PessoaResponse {
     private String nomeCompleto;
     private TipoDocumento tipoDocumento;
     private String numeroDocumento;
+    private boolean criancaColo;
     private String telefone;
     private String observacaoCurta;
     private String observacaoDetalhada;

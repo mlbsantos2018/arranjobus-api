@@ -18,6 +18,7 @@ public class PessoaMapper {
                 .nomeCompleto(request.getNomeCompleto())
                 .tipoDocumento(request.getTipoDocumento())
                 .numeroDocumento(request.getNumeroDocumento())
+                .criancaColo(request.isCriancaColo())
                 .telefone(request.getTelefone())
                 .observacaoCurta(request.getObservacaoCurta())
                 .observacaoDetalhada(request.getObservacaoDetalhada())
@@ -28,6 +29,9 @@ public class PessoaMapper {
 
     public Pessoa toPessoa(UUID id, PessoaUpdateRequest request, Pessoa pessoa) {
         pessoa.setNomeCompleto(request.getNomeCompleto());
+        if (request.getCriancaColo() != null) {
+            pessoa.setCriancaColo(request.getCriancaColo());
+        }
         pessoa.setTelefone(request.getTelefone());
         pessoa.setObservacaoCurta(request.getObservacaoCurta());
         pessoa.setObservacaoDetalhada(request.getObservacaoDetalhada());
@@ -41,6 +45,7 @@ public class PessoaMapper {
                 .nomeCompleto(pessoa.getNomeCompleto())
                 .tipoDocumento(pessoa.getTipoDocumento())
                 .numeroDocumento(pessoa.getNumeroDocumento())
+                .criancaColo(pessoa.isCriancaColo())
                 .telefone(pessoa.getTelefone())
                 .observacaoCurta(pessoa.getObservacaoCurta())
                 .observacaoDetalhada(pessoa.getObservacaoDetalhada())
