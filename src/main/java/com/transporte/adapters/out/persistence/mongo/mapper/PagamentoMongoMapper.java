@@ -16,6 +16,7 @@ public class PagamentoMongoMapper {
     public PagamentoDocument toPagamentoDocument(Pagamento pagamento) {
         return PagamentoDocument.builder()
                 .id(pagamento.getId().toString())
+                .eventoId(pagamento.getEventoId() != null ? pagamento.getEventoId().toString() : null)
                 .participacaoId(pagamento.getParticipacaoId().toString())
                 .valorTotal(pagamento.getValorTotal())
                 .valorPago(pagamento.getValorPago())
@@ -31,6 +32,7 @@ public class PagamentoMongoMapper {
     public Pagamento toPagamento(PagamentoDocument document) {
         return Pagamento.builder()
                 .id(UUID.fromString(document.getId()))
+                .eventoId(document.getEventoId() != null ? UUID.fromString(document.getEventoId()) : null)
                 .participacaoId(UUID.fromString(document.getParticipacaoId()))
                 .valorTotal(document.getValorTotal())
                 .valorPago(document.getValorPago())

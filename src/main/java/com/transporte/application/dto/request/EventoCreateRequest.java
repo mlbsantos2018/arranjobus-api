@@ -1,12 +1,14 @@
 package com.transporte.application.dto.request;
 
 import com.transporte.domain.enums.TipoEvento;
+import com.transporte.domain.enums.DiaEvento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -34,4 +36,9 @@ public class EventoCreateRequest {
     private Integer limiteIdadeCriancaColo;
 
     private List<String> temas;
+
+    @NotNull(message = "Data de ocorrência é obrigatória")
+    private LocalDateTime dataOcorrencia;
+
+    private DiaEvento diaAssembleia;  // Obrigatório quando tipo = ASSEMBLEIA
 }

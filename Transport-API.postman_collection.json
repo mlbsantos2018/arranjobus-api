@@ -421,9 +421,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/participants",
+              "raw": "{{base_url}}/api/v1/participations/events/{{evento_id}}/participants",
               "host": ["{{base_url}}"],
-              "path": ["api", "v1", "events", "{{evento_id}}", "participants"]
+              "path": ["api", "v1", "participations", "events", "{{evento_id}}", "participants"]
             }
           }
         },
@@ -438,9 +438,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/v1/events/{{evento_id}}/participants/day/SEXTA",
+              "raw": "{{base_url}}/api/v1/participations/events/{{evento_id}}/participants/day/SEXTA",
               "host": ["{{base_url}}"],
-              "path": ["api", "v1", "events", "{{evento_id}}", "participants", "day", "SEXTA"]
+              "path": ["api", "v1", "participations", "events", "{{evento_id}}", "participants", "day", "SEXTA"]
             }
           }
         }
@@ -478,12 +478,37 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"participacaoId\": \"{{participacao_id}}\",\n  \"valorTotal\": 300.00,\n  \"valorPago\": 100.00,\n  \"formaPagamento\": \"PIX\",\n  \"observacao\": \"Primeiro pagamento\"\n}"
+              "raw": "{\n  \"participacaoId\": \"{{participacao_id}}\",\n  \"valorTotal\": 300.00,\n  \"formaPagamento\": \"PIX\",\n  \"dataPagamento\": \"2026-06-23T10:00:00\",\n  \"observacao\": \"Primeiro pagamento\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/payments",
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "payments"]
+            }
+          }
+        },
+        {
+          "name": "Register Installment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"valor\": 150.00,\n  \"formaPagamento\": \"DINHEIRO\",\n  \"dataPagamento\": \"2026-06-24T10:00:00\",\n  \"observacao\": \"Parcela parcial\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payments/{{pagamento_id}}/installments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payments", "{{pagamento_id}}", "installments"]
             }
           }
         },

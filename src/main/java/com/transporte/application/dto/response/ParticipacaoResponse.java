@@ -1,5 +1,6 @@
 package com.transporte.application.dto.response;
 
+import com.transporte.domain.enums.StatusPagamento;
 import com.transporte.domain.enums.StatusParticipacao;
 import com.transporte.domain.enums.DiaEvento;
 import lombok.*;
@@ -21,5 +22,6 @@ public class ParticipacaoResponse {
     private UUID criancaColoId;
     private List<DiaEvento> dias;
     private StatusParticipacao status;
+    private StatusPagamento paymentStatus;
     private LocalDateTime criadoEm;
 }

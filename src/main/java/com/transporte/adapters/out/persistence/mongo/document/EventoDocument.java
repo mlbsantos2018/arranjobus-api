@@ -2,6 +2,7 @@ package com.transporte.adapters.out.persistence.mongo.document;
 
 import com.transporte.domain.enums.TipoEvento;
 import com.transporte.domain.enums.StatusEvento;
+import com.transporte.domain.enums.DiaEvento;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,4 +37,8 @@ public class EventoDocument {
     private List<String> temas;
 
     private LocalDateTime criadoEm;
+
+    private LocalDateTime dataOcorrencia;
+
+    private DiaEvento diaAssembleia;  // Para eventos tipo ASSEMBLEIA
 }

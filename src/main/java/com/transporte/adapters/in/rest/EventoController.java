@@ -2,6 +2,7 @@ package com.transporte.adapters.in.rest;
 
 import com.transporte.application.dto.request.EventoCreateRequest;
 import com.transporte.application.dto.response.EventoResponse;
+import com.transporte.application.dto.response.EventoDetailResponse;
 import com.transporte.application.mapper.EventoMapper;
 import com.transporte.application.service.EventoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,6 +42,13 @@ public class EventoController {
         return ResponseEntity.ok(eventoMapper.toResponse(evento));
     }
 
+    @GetMapping("/{id}/details")
+    @Operation(summary = "Obter evento com detalhes", description = "Obter um evento com informações consolidadas (participantes, arrecadação)")
+    public ResponseEntity<EventoDetailResponse> buscarPorIdComDetalhes(@PathVariable UUID id) {
+        var eventoDetail = eventoService.buscarPorIdComDetalhes(id);
+        return ResponseEntity.ok(eventoDetail);
+    }
+
     @GetMapping
     @Operation(summary = "Listar eventos", description = "Listar todos os eventos")
     public ResponseEntity<List<EventoResponse>> listar() {
@@ -72,5 +80,13 @@ public class EventoController {
     public ResponseEntity<EventoResponse> arquivar(@PathVariable UUID id) {
         var eventoArquivado = eventoService.arquivar(id);
         return ResponseEntity.ok(eventoMapper.toResponse(eventoArquivado));
+    }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Deletar evento", description = "Deletar um evento permanentemente")
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+        eventoService.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

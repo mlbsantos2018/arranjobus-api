@@ -5,8 +5,10 @@ import com.transporte.domain.model.Participacao;
 import com.transporte.domain.model.Evento;
 import com.transporte.domain.enums.DiaEvento;
 import com.transporte.domain.enums.StatusEvento;
+import com.transporte.domain.enums.TipoEvento;
 import com.transporte.domain.ports.out.ParticipacaoRepositoryPort;
 import com.transporte.domain.ports.out.EventoRepositoryPort;
+import com.transporte.domain.ports.out.PagamentoRepositoryPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class ParticipacaoService {
 
     private final ParticipacaoRepositoryPort participacaoRepository;
     private final EventoRepositoryPort eventoRepository;
+    private final PagamentoRepositoryPort pagamentoRepository;
 
     public Participacao adicionar(Participacao participacao) {
         // Validar evento
@@ -35,20 +38,40 @@ public class ParticipacaoService {
             throw new ParticipanteDuplicadoException(participacao.getPessoaId(), participacao.getEventoId());
         }
 
-        // Validar vagas
-        long totalParticipantes = participacaoRepository.buscarPorEventoId(evento.getId()).size();
-        if (totalParticipantes >= evento.getVagasTotais()) {
-            throw new VagasLotadasException(evento.getId());
+        if (evento.getTipo() == TipoEvento.ASSEMBLEIA) {
+            if (evento.getDiaAssembleia() == null) {
+                throw new IllegalArgumentException("Dia da assembleia não definido para este evento");
+            }
+            participacao.setDias(List.of(evento.getDiaAssembleia()));
+        }
+
+        // Validar vagas por dia
+        if (participacao.getCriancaColoId() == null) {
+            var dias = participacao.getDias();
+            if (dias != null) {
+                for (DiaEvento dia : dias) {
+                    long participantesNoDia = participacaoRepository.buscarPorEventoIdEDia(evento.getId(), dia).stream()
+                            .filter(p -> p.getCriancaColoId() == null)
+                            .count();
+                    if (participantesNoDia >= evento.getVagasTotais()) {
+                        throw new VagasLotadasException(evento.getId());
+                    }
+                }
+            }
         }
 
         return participacaoRepository.criar(participacao);
     }
 
-    public void remover(UUID id) {
-        participacaoRepository.buscarPorId(id)
+    public void remover(UUID id, boolean keepPayment) {
+        var participacao = participacaoRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Participacao", id.toString()));
 
-        participacaoRepository.excluir(id);
+        if (!keepPayment) {
+            pagamentoRepository.buscarPorParticipacaoId(id).ifPresent(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
+        }
+
+        participacaoRepository.excluir(participacao.getId());
     }
 
     public List<Participacao> listarPorEvento(UUID eventoId) {

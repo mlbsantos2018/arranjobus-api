@@ -1,4 +1,4 @@
-package com.transporte.domain.model;
+package com.transporte.application.dto.response;
 
 import com.transporte.domain.enums.TipoEvento;
 import com.transporte.domain.enums.StatusEvento;
@@ -15,8 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(of = "id")
-public class Evento {
+public class EventoDetailResponse {
 
     private UUID id;
     private String nome;
@@ -28,6 +27,12 @@ public class Evento {
     private List<String> temas;
     private LocalDateTime criadoEm;
     private LocalDateTime dataOcorrencia;
-    private DiaEvento diaAssembleia;  // Para eventos tipo ASSEMBLEIA, armazena o dia específico
+    private DiaEvento diaAssembleia;  // Para eventos tipo ASSEMBLEIA
+    private BigDecimal valorTotalEsperado;
+    
+    // Campos consolidados
+    private Integer totalParticipantes;
+    private BigDecimal totalArrecadado;
+    private Double percentualCapacidade;
+    private Double percentualArrecadacao;
 }
-

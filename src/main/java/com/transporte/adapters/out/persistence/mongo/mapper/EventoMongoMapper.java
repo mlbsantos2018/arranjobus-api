@@ -21,6 +21,8 @@ public class EventoMongoMapper {
                 .status(evento.getStatus())
                 .temas(evento.getTemas())
                 .criadoEm(evento.getCriadoEm() != null ? evento.getCriadoEm() : LocalDateTime.now())
+                .dataOcorrencia(evento.getDataOcorrencia())
+                .diaAssembleia(evento.getDiaAssembleia())
                 .build();
     }
 
@@ -35,6 +37,8 @@ public class EventoMongoMapper {
                 .status(document.getStatus())
                 .temas(document.getTemas())
                 .criadoEm(document.getCriadoEm())
+                .dataOcorrencia(document.getDataOcorrencia())
+                .diaAssembleia(document.getDiaAssembleia())
                 .build();
     }
 }

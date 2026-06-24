@@ -19,5 +19,7 @@ public interface PagamentoRepositoryPort {
 
     List<Pagamento> buscarPorPessoaId(UUID pessoaId);
 
+    List<Pagamento> buscarPorEventoId(UUID eventoId);
+
     List<Pagamento> listar();
 }

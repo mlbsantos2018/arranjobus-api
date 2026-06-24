@@ -2,8 +2,10 @@ package com.transporte.adapters.in.rest;
 
 import com.transporte.application.dto.request.LoginRequest;
 import com.transporte.application.dto.response.JwtResponse;
+import com.transporte.application.dto.response.UsuarioResponse;
+import com.transporte.application.mapper.UsuarioMapper;
+import com.transporte.application.service.UsuarioService;
 import com.transporte.infrastructure.security.JwtService;
-import com.transporte.infrastructure.security.CustomUserDetailsService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -24,7 +26,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
+    private final UsuarioService usuarioService;
+    private final UsuarioMapper usuarioMapper;
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Autenticar usuário e obter JWT token")
@@ -48,8 +51,9 @@ public class AuthController {
     @GetMapping("/me")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get current user", description = "Obter informações do usuário atual")
-    public ResponseEntity<?> getCurrentUser() {
+    public ResponseEntity<UsuarioResponse> getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok("Usuario autenticado: " + username);
+        var usuario = usuarioService.buscarPorUsername(username);
+        return ResponseEntity.ok(usuarioMapper.toResponse(usuario));
     }
 }

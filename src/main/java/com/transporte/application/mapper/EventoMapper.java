@@ -23,6 +23,8 @@ public class EventoMapper {
                 .status(StatusEvento.ATIVO)
                 .temas(request.getTemas())
                 .criadoEm(LocalDateTime.now())
+                .dataOcorrencia(request.getDataOcorrencia())
+                .diaAssembleia(request.getDiaAssembleia())
                 .build();
     }
 
@@ -37,6 +39,8 @@ public class EventoMapper {
                 .status(evento.getStatus())
                 .temas(evento.getTemas())
                 .criadoEm(evento.getCriadoEm())
+                .dataOcorrencia(evento.getDataOcorrencia())
+                .diaAssembleia(evento.getDiaAssembleia())
                 .build();
     }
 }

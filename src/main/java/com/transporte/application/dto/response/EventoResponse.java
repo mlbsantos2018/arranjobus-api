@@ -2,6 +2,7 @@ package com.transporte.application.dto.response;
 
 import com.transporte.domain.enums.TipoEvento;
 import com.transporte.domain.enums.StatusEvento;
+import com.transporte.domain.enums.DiaEvento;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,4 +26,6 @@ public class EventoResponse {
     private StatusEvento status;
     private List<String> temas;
     private LocalDateTime criadoEm;
+    private LocalDateTime dataOcorrencia;
+    private DiaEvento diaAssembleia;  // Para eventos tipo ASSEMBLEIA
 }

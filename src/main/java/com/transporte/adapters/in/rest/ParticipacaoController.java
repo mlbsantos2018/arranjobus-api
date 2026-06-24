@@ -4,6 +4,8 @@ import com.transporte.application.dto.request.ParticipacaoCreateRequest;
 import com.transporte.application.dto.response.ParticipacaoResponse;
 import com.transporte.application.mapper.ParticipacaoMapper;
 import com.transporte.application.service.ParticipacaoService;
+import com.transporte.domain.enums.StatusPagamento;
+import com.transporte.domain.ports.out.PagamentoRepositoryPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,6 +28,7 @@ public class ParticipacaoController {
 
     private final ParticipacaoService participacaoService;
     private final ParticipacaoMapper participacaoMapper;
+    private final PagamentoRepositoryPort pagamentoRepository;
 
     @PostMapping
     @Operation(summary = "Criar participação", description = "Adicionar um participante em um evento")
@@ -36,8 +39,10 @@ public class ParticipacaoController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remover participação", description = "Remover um participante de um evento")
-    public ResponseEntity<Void> remover(@PathVariable UUID id) {
-        participacaoService.remover(id);
+    public ResponseEntity<Void> remover(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "true") boolean keepPayment) {
+        participacaoService.remover(id, keepPayment);
         return ResponseEntity.noContent().build();
     }
 
@@ -46,7 +51,11 @@ public class ParticipacaoController {
     public ResponseEntity<List<ParticipacaoResponse>> listarPorEvento(@PathVariable UUID eventId) {
         var participacoes = participacaoService.listarPorEvento(eventId);
         return ResponseEntity.ok(participacoes.stream()
-                .map(participacaoMapper::toResponse)
+                .map(participacao -> participacaoMapper.toResponse(
+                        participacao,
+                        pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
+                                .map(pagamento -> pagamento.getStatus())
+                                .orElse(StatusPagamento.PENDENTE)))
                 .collect(Collectors.toList()));
     }
 
@@ -59,7 +68,11 @@ public class ParticipacaoController {
 
         return ResponseEntity.ok(
                 participacoes.stream()
-                        .map(participacaoMapper::toResponse)
+                        .map(participacao -> participacaoMapper.toResponse(
+                                participacao,
+                                pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
+                                        .map(pagamento -> pagamento.getStatus())
+                                        .orElse(StatusPagamento.PENDENTE)))
                         .collect(Collectors.toList()));
     }
 }
