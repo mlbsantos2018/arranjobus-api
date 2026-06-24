@@ -32,6 +32,7 @@ public class PagamentoMapper {
                 .formaPagamento(request.getFormaPagamento())
                 .dataPagamento(request.getDataPagamento())
                 .observacao(request.getObservacao())
+                .dia(request.getDia())
                 .build();
     }
 
@@ -41,6 +42,7 @@ public class PagamentoMapper {
                 .formaPagamento(request.getFormaPagamento())
                 .dataPagamento(request.getDataPagamento())
                 .observacao(request.getObservacao())
+                .dia(request.getDia())
                 .build();
     }
 
@@ -66,6 +68,7 @@ public class PagamentoMapper {
                 .formaPagamento(lancamento.getFormaPagamento())
                 .dataPagamento(lancamento.getDataPagamento())
                 .observacao(lancamento.getObservacao())
+                .dia(lancamento.getDia())
                 .build();
     }
 }

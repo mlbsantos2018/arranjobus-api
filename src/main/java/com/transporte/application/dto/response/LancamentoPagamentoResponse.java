@@ -1,5 +1,6 @@
 package com.transporte.application.dto.response;
 
+import com.transporte.domain.enums.DiaEvento;
 import com.transporte.domain.enums.FormaPagamento;
 import lombok.*;
 
@@ -19,4 +20,5 @@ public class LancamentoPagamentoResponse {
     private FormaPagamento formaPagamento;
     private LocalDateTime dataPagamento;
     private String observacao;
+    private DiaEvento dia;
 }

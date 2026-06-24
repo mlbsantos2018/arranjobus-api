@@ -52,6 +52,7 @@ public class PagamentoMongoMapper {
                 .formaPagamento(lancamento.getFormaPagamento())
                 .dataPagamento(lancamento.getDataPagamento())
                 .observacao(lancamento.getObservacao())
+                .dia(lancamento.getDia())
                 .build();
     }
 
@@ -62,6 +63,7 @@ public class PagamentoMongoMapper {
                 .formaPagamento(document.getFormaPagamento())
                 .dataPagamento(document.getDataPagamento())
                 .observacao(document.getObservacao())
+                .dia(document.getDia())
                 .build();
     }
 }

@@ -87,8 +87,9 @@ public class PagamentoService {
 
         if (tipoEvento == TipoEvento.CONGRESSO) {
             var quantidadeDias = dias == null || dias.isEmpty() ? 1 : dias.size();
-            var valorDiaria = valorPassagem.divide(BigDecimal.valueOf(3), 2, RoundingMode.HALF_UP);
-            return valorDiaria.multiply(BigDecimal.valueOf(quantidadeDias));
+            return valorPassagem
+                    .multiply(BigDecimal.valueOf(quantidadeDias))
+                    .divide(BigDecimal.valueOf(3), 2, RoundingMode.HALF_UP);
         }
 
         return valorPassagem;

@@ -1,5 +1,6 @@
 package com.transporte.adapters.out.persistence.mongo.document;
 
+import com.transporte.domain.enums.DiaEvento;
 import com.transporte.domain.enums.FormaPagamento;
 import lombok.*;
 
@@ -22,4 +23,6 @@ public class LancamentoPagamentoDocument {
     private LocalDateTime dataPagamento;
 
     private String observacao;
+
+    private DiaEvento dia;
 }

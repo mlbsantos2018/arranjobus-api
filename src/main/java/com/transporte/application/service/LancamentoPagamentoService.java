@@ -28,8 +28,13 @@ public class LancamentoPagamentoService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Lançamento de pagamento", lancamentoId.toString()));
 
         lancamentoExistente.setFormaPagamento(lancamentoAtualizado.getFormaPagamento());
-        lancamentoExistente.setDataPagamento(lancamentoAtualizado.getDataPagamento() != null ? lancamentoAtualizado.getDataPagamento() : lancamentoExistente.getDataPagamento());
+        if (lancamentoAtualizado.getDataPagamento() != null) {
+            lancamentoExistente.setDataPagamento(lancamentoAtualizado.getDataPagamento());
+        }
         lancamentoExistente.setObservacao(lancamentoAtualizado.getObservacao());
+        if (lancamentoAtualizado.getDia() != null) {
+            lancamentoExistente.setDia(lancamentoAtualizado.getDia());
+        }
 
         atualizarStatusPagamento(pagamento);
         return pagamentoRepository.atualizar(pagamento);

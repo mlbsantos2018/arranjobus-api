@@ -76,15 +76,17 @@ public class ParticipacaoService {
         validarVagasPorDia(participacao, evento);
 
         Participacao created = participacaoRepository.criar(participacao);
-        try {
-            var pagamento = Pagamento.builder()
-                    .id(UUID.randomUUID())
-                    .participacaoId(created.getId())
-                    .build();
-            pagamentoService.criar(pagamento);
-        } catch (RuntimeException ex) {
-            participacaoRepository.excluir(created.getId());
-            throw ex;
+        if (created.getCriancaColoId() == null) {
+            try {
+                var pagamento = Pagamento.builder()
+                        .id(UUID.randomUUID())
+                        .participacaoId(created.getId())
+                        .build();
+                pagamentoService.criar(pagamento);
+            } catch (RuntimeException ex) {
+                participacaoRepository.excluir(created.getId());
+                throw ex;
+            }
         }
         return created;
     }

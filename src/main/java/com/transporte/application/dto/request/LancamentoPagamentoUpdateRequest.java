@@ -1,5 +1,6 @@
 package com.transporte.application.dto.request;
 
+import com.transporte.domain.enums.DiaEvento;
 import com.transporte.domain.enums.FormaPagamento;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -28,4 +29,6 @@ public class LancamentoPagamentoUpdateRequest {
     private LocalDateTime dataPagamento;
 
     private String observacao;
+
+    private DiaEvento dia;
 }
