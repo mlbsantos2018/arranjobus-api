@@ -62,6 +62,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/v1/auth/login").permitAll()
                     .requestMatchers("/api/v1/auth/me").authenticated()
+                    .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .requestMatchers("/api/v1/**").hasRole("ADMIN")
                     .anyRequest().authenticated())
@@ -76,12 +77,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("http://localhost:*");
-        configuration.addAllowedOriginPattern("https://localhost:*");
-        configuration.addAllowedOriginPattern("http://127.0.0.1:*");
-        configuration.addAllowedOriginPattern("https://127.0.0.1:*");
-        configuration.addAllowedOriginPattern("http://10.0.2.2:*");
-        configuration.addAllowedOriginPattern("http://10.0.3.2:*");
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
