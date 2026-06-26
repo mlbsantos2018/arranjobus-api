@@ -15,6 +15,7 @@ import java.util.UUID;
 public class PagamentoResponse {
 
     private UUID id;
+    private UUID eventoId;
     private UUID participacaoId;
     private BigDecimal valorTotal;
     private BigDecimal valorPago;

@@ -82,6 +82,10 @@ java -jar target/transport-api-0.0.1-SNAPSHOT.jar
 
 Todos os endpoints estão documentados no Swagger. Acesse http://localhost:8080/swagger-ui.html após iniciar a aplicação.
 
+Também foi criada uma documentação complementar com visão de negócio e técnica:
+
+- [API_DOCUMENTACAO_NEGOCIO_TECNICA.md](API_DOCUMENTACAO_NEGOCIO_TECNICA.md)
+
 ### Autenticação
 
 1. Faça login em `POST /api/v1/auth/login` com:

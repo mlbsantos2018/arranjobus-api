@@ -49,6 +49,7 @@ public class PagamentoMapper {
     public PagamentoResponse toResponse(Pagamento pagamento) {
         return PagamentoResponse.builder()
                 .id(pagamento.getId())
+                .eventoId(pagamento.getEventoId())
                 .participacaoId(pagamento.getParticipacaoId())
                 .valorTotal(pagamento.getValorTotal())
                 .valorPago(pagamento.getValorPago())
