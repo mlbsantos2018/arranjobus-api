@@ -71,7 +71,7 @@ public class EventoService {
         var participacoes = participacaoRepository.buscarPorEventoId(id);
         participacoes.forEach(participacao -> {
             pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
-                    .ifPresent(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
+                .forEach(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
             participacaoRepository.excluir(participacao.getId());
         });
         

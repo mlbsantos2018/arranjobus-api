@@ -15,7 +15,7 @@ public interface PagamentoRepositoryPort {
 
     Optional<Pagamento> buscarPorId(UUID id);
 
-    Optional<Pagamento> buscarPorParticipacaoId(UUID participacaoId);
+    List<Pagamento> buscarPorParticipacaoId(UUID participacaoId);
 
     List<Pagamento> buscarPorPessoaId(UUID pessoaId);
 

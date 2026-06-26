@@ -55,7 +55,7 @@ public class ParticipacaoService {
             validarVagasPorDia(participacaoAnterior, evento);
 
             var participacaoReativada = participacaoRepository.atualizar(participacaoAnterior);
-            pagamentoRepository.buscarPorParticipacaoId(participacaoReativada.getId()).ifPresent(pagamento -> {
+            pagamentoRepository.buscarPorParticipacaoId(participacaoReativada.getId()).stream().findFirst().ifPresent(pagamento -> {
                 var novoValorTotal = pagamentoService.calcularValorTotal(evento.getTipo(), evento.getValorPassagem(), participacaoReativada.getDias());
                 if (pagamento.getValorTotal() == null || pagamento.getValorTotal().compareTo(novoValorTotal) != 0) {
                     pagamento.setValorTotal(novoValorTotal);
@@ -113,7 +113,8 @@ public class ParticipacaoService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Participacao", id.toString()));
 
         if (!keepPayment) {
-            pagamentoRepository.buscarPorParticipacaoId(id).ifPresent(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
+            pagamentoRepository.buscarPorParticipacaoId(id)
+                .forEach(pagamento -> pagamentoRepository.excluir(pagamento.getId()));
             participacaoRepository.excluir(participacao.getId());
             return;
         }

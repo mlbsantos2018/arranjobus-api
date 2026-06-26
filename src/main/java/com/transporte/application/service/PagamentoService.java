@@ -63,8 +63,9 @@ public class PagamentoService {
     }
 
     public Pagamento buscarPorParticipacao(UUID participacaoId) {
-        return pagamentoRepository.buscarPorParticipacaoId(participacaoId)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Pagamento", participacaoId.toString()));
+        return pagamentoRepository.buscarPorParticipacaoId(participacaoId).stream()
+            .findFirst()
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Pagamento", participacaoId.toString()));
     }
 
     public Pagamento atualizar(Pagamento pagamento) {

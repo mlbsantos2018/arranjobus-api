@@ -54,6 +54,8 @@ public class ParticipacaoController {
                 .map(participacao -> participacaoMapper.toResponse(
                         participacao,
                         pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
+                                .stream()
+                                .findFirst()
                                 .map(pagamento -> pagamento.getStatus())
                                 .orElse(StatusPagamento.PENDENTE)))
                 .collect(Collectors.toList()));
@@ -71,6 +73,8 @@ public class ParticipacaoController {
                         .map(participacao -> participacaoMapper.toResponse(
                                 participacao,
                                 pagamentoRepository.buscarPorParticipacaoId(participacao.getId())
+                                        .stream()
+                                        .findFirst()
                                         .map(pagamento -> pagamento.getStatus())
                                         .orElse(StatusPagamento.PENDENTE)))
                         .collect(Collectors.toList()));

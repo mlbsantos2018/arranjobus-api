@@ -47,8 +47,10 @@ public class PagamentoMongoAdapter implements PagamentoRepositoryPort {
     }
 
     @Override
-    public Optional<Pagamento> buscarPorParticipacaoId(UUID participacaoId) {
-        return repository.findByParticipacaoId(participacaoId.toString()).map(mapper::toPagamento);
+    public List<Pagamento> buscarPorParticipacaoId(UUID participacaoId) {
+        return repository.findByParticipacaoId(participacaoId.toString()).stream()
+                .map(mapper::toPagamento)
+                .collect(Collectors.toList());
     }
 
     @Override
